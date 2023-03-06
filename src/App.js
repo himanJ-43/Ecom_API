@@ -18,17 +18,34 @@ function App() {
       .catch((error) => console.log(error));
   }, []);
 
-
+  
   const handleCategorySelect = (category) => {
     setCategory(category);
     setSearchQuery("");
   };
 
-  
   const handleSearch = (query) => {
     setSearchQuery(query);
     setCategory("");
   };
+
+  // const handleSearch = (event) => {
+  //   setSearchQuery(event.target.value);
+  //   setCategory("");
+  // };
+  
+
+
+  // const filteredProducts = products.filter((product) => {
+  //   const titleMatch = product.title
+  //     .toLowerCase()
+  //     .includes(searchQuery.toLowerCase());
+  //   const descriptionMatch = product.description
+  //     .toLowerCase()
+  //     .includes(searchQuery.toLowerCase());
+  //   return titleMatch || descriptionMatch;
+  // });
+
 
   const filteredProducts = products.filter((product) => {
     const titleMatch = product.title
@@ -37,8 +54,13 @@ function App() {
     const descriptionMatch = product.description
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    return titleMatch || descriptionMatch;
+    const categoryMatch = category === "" || product.category === category;
+    return (titleMatch || descriptionMatch) && categoryMatch;
   });
+  
+
+
+
 
   const categories = [
     ...new Set(products.map((product) => product.category)),
